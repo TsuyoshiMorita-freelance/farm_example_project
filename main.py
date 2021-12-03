@@ -22,8 +22,13 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-app.add_event_handler("startup", connect_db)
-app.add_event_handler("shutdown", close_db)
+@app.on_event("startup")
+async def startup_event():
+    connect_db()
+
+@app.on_event("shutdown")
+def shutdown_event():
+    close_db()
 
 @CsrfProtect.load_config
 def get_csrf_config():
