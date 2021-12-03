@@ -7,19 +7,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from auth_utils import AuthJwtCsrf
 
-client: AsyncIOMotorClient = None
 MONGO_API_KEY = config('MONGO_API_KEY')
-
-def connect_db():
-    """Create database connection."""
-    global client
-    client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
-    return client
-
-def close_db():
-    """Close database connection."""
-    global client
-    client.close()
 
 client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
 database = client.FastAPI
