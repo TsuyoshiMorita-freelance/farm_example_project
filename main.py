@@ -24,10 +24,12 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup_event():
+    print("StartEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     connect_db()
 
 @app.on_event("shutdown")
 def shutdown_event():
+    print("EndEvent!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     close_db()
 
 @CsrfProtect.load_config
