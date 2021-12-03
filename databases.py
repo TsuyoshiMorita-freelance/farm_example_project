@@ -3,12 +3,27 @@ from pydantic.tools import T
 from decouple import config
 from typing import Union
 import motor.motor_asyncio
+from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from auth_utils import AuthJwtCsrf
 
+client = None
 MONGO_API_KEY = config('MONGO_API_KEY')
 
-client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
+def connect_db():
+    """Create database connection."""
+    global client
+    client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
+    print(client)
+    return client
+
+def close_db():
+    """Close database connection."""
+    global client
+    client.close()
+
+#client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_API_KEY)
+connect_db()
 database = client.FastAPI
 collection_todo = database.todo
 collection_user = database.user

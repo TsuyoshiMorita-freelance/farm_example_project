@@ -8,6 +8,7 @@ from fastapi_csrf_protect.exceptions import CsrfProtectError
 import route_todo
 import route_user
 from schemas import CsrfSettings, SuccessMsg
+from databases import connect_db,close_db
 
 app = FastAPI()
 app.include_router(route_todo.router)
@@ -20,6 +21,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
+
+app.add_event_handler("startup", connect_db)
+app.add_event_handler("shutdown", close_db)
 
 @CsrfProtect.load_config
 def get_csrf_config():
@@ -34,4 +38,4 @@ def csrf_protect_exception_handler(request: Request, exc: CsrfProtectError):
 
 @app.get("/", response_model=SuccessMsg)
 async def root():
-    return {"message": "omanko3"}
+    return {"message": "wellcaome"}
