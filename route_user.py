@@ -42,5 +42,5 @@ async def logout(request: Request, response: Response, user: UserBody, csrf_prot
 @router.get("/api/user", response_model=UserInfo)
 def get_user_refresh_jwt(request: Request, response: Response):
     new_token, subject = auth.verify_update_jwt(request)
-    response.set_cookie(key="access_token", value=f"Bearer {token}", httponly=True, samesite="none", secure=True)
+    response.set_cookie(key="access_token", value=f"Bearer {new_token}", httponly=True, samesite="none", secure=True)
     return {"email": "Successfully logined-out"}
